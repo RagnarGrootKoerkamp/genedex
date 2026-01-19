@@ -359,7 +359,9 @@ impl<I: IndexStorage, B: Block> TextWithRankSupport<I> for CondensedTextWithRank
         prefetch_index(&self.interleaved_block_offsets, block_offset_idx);
 
         let block_range = self.block_range(idx);
-        prefetch_index(&self.interleaved_blocks, block_range.start);
+        for i in (block_range).step_by(512 / B::NUM_BITS) {
+            prefetch_index(&self.interleaved_blocks, i);
+        }
     }
 
     #[inline(always)]
