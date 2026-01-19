@@ -262,6 +262,21 @@ impl<I: IndexStorage, B: Block> TextWithRankSupport<I> for FlatTextWithRankSuppo
     }
 
     #[inline(always)]
+    fn prefetch_all(&self, idx: usize) {
+        let superblock_offset_idx = self.superblock_offset_idx(0, idx);
+        debug_assert!(
+            std::mem::size_of::<I>() * self.alphabet_size <= 512,
+            "Prefetch_all assumes that the superblock offsets for all symbols fit into one cache line."
+        );
+        prefetch_index(&self.interleaved_superblock_offsets, superblock_offset_idx);
+
+        let block_idx = self.block_idx(0, idx);
+        for i in (0..self.alphabet_size).step_by(512 / B::NUM_BITS) {
+            prefetch_index(&self.interleaved_blocks, block_idx + i);
+        }
+    }
+
+    #[inline(always)]
     fn symbol_at(&self, idx: usize) -> u8 {
         assert!(idx < self.text_len);
 

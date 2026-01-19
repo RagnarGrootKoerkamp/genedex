@@ -126,6 +126,9 @@ pub trait TextWithRankSupport<I: IndexStorage>:
         let _ = idx;
     }
 
+    /// Prefetch the data needed to answer `rank_unchecked(idx)` quickly.
+    fn prefetch_all(&self, idx: usize);
+
     /// Recoveres the symbol of the text at given index `idx`.
     ///
     /// The running time is in O(1).

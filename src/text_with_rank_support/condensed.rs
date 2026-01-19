@@ -365,6 +365,15 @@ impl<I: IndexStorage, B: Block> TextWithRankSupport<I> for CondensedTextWithRank
     }
 
     #[inline(always)]
+    fn prefetch_all(&self, idx: usize) {
+        debug_assert!(
+            std::mem::size_of::<I>() * self.alphabet_size <= 512,
+            "Prefetch_all assumes that the superblock offsets for all symbols fit into one cache line."
+        );
+        self.prefetch(0, idx);
+    }
+
+    #[inline(always)]
     fn symbol_at(&self, idx: usize) -> u8 {
         assert!(idx < self.text_len);
 
