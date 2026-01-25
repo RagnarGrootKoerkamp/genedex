@@ -5,8 +5,9 @@ use crate::maybe_mem_dbg::MaybeMemDbg;
 use crate::maybe_savefile::MaybeSavefile;
 use crate::sealed::Sealed;
 
+use super::TextWithRankSupport;
 use super::block::{Block, Block64, NUM_BLOCK_OFFSET_BITS};
-use super::{TextWithRankSupport, prefetch_index};
+use prefetch_index::prefetch_index;
 
 use num_traits::{NumCast, PrimInt};
 use rayon::prelude::*;

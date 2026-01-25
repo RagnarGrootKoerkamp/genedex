@@ -6,12 +6,10 @@ use crate::{
     maybe_savefile::MaybeSavefile, sealed::Sealed,
 };
 
-use super::{
-    block::{Block, Block64},
-    prefetch_index,
-};
+use super::block::{Block, Block64};
 
 use num_traits::{NumCast, PrimInt};
+use prefetch_index::prefetch_index;
 use rayon::prelude::*;
 
 // Interleaved means that the respective values for different symbols of the alphabet
