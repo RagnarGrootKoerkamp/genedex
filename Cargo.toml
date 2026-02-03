@@ -39,7 +39,7 @@ rand = "0.9.0"
 rand_chacha = "0.9.0"
 
 [features]
-default = ["savefile", "u32-saca"]
+default = ["savefile", "u32-saca", "mem_dbg"]
 savefile = ["dep:savefile"]
 u32-saca = ["psacak"]
 mem_dbg = ["dep:mem_dbg"]
